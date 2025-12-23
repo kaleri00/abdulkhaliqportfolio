@@ -25,3 +25,28 @@ document.querySelectorAll('.btn').forEach(buttonElement => {
   const button = bootstrap.Button.getOrCreateInstance(buttonElement)
   button.toggle()
 })
+// ===== Scroll Reveal Animation =====
+const reveals = document.querySelectorAll(
+  "#services .card, #about h2, #about p, #skills .col-md-3, #projects .card, #contact form"
+);
+
+reveals.forEach((el, index) => {
+  el.classList.add("reveal");
+
+  // Stagger animation
+  el.style.transitionDelay = `${index * 0.15}s`;
+});
+
+const observer = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.25 }
+);
+
+reveals.forEach(el => observer.observe(el));
